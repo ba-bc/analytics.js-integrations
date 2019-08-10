@@ -237,6 +237,11 @@ Appboy.prototype.loaded = function() {
   return window.appboy && window.appboy.initialize !== this._shim;
 };
 
+var traitAliases = {
+  first_name: 'FirstName',
+  last_name: 'LastName'
+};
+
 /**
  * Identify.
  *
@@ -245,16 +250,17 @@ Appboy.prototype.loaded = function() {
  */
 
 Appboy.prototype.identify = function(identify) {
-  var userId = identify.userId();
-  var address = identify.address();
-  var avatar = identify.avatar();
-  var birthday = identify.birthday();
-  var email = identify.email();
-  var firstName = identify.firstName();
-  var gender = identify.gender();
-  var lastName = identify.lastName();
-  var phone = identify.phone();
-  var traits = clone(identify.traits());
+  var traits = clone(identify.traits(traitAliases));
+
+  var userId = traits.userId;
+  var address = traits.address;
+  var avatar = traits.avatar;
+  var birthday = traits.birthday;
+  var email = traits.email;
+  var firstName = traits.firstName;
+  var gender = traits.gender;
+  var lastName = traits.lastName;
+  var phone = traits.phone;
 
   if (userId) {
     window.appboy.changeUser(userId);
